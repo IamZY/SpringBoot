@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: com.ntuzy.springboot
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: IamZY
+Implementation-Vendor-Id: com.ntuzy
+Build-Jdk: 1.8.0_161
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/com.ntuzy.springboot
+Created-By: Maven Integration for Eclipse
+
