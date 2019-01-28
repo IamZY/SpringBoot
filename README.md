@@ -230,3 +230,242 @@
 + 自定义配置
 
   `spring.resources.static-locations = classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/ `
+
+## 文件上传
+
++ 普通文件上传
+
+  ```JAVA
+  package com.ntuzy.demo.controller;
+  
+  import java.awt.Image;
+  import java.io.File;
+  import java.io.IOException;
+  import java.util.UUID;
+  
+  import javax.servlet.http.HttpServletRequest;
+  
+  import org.springframework.stereotype.Controller;
+  import org.springframework.web.bind.annotation.GetMapping;
+  import org.springframework.web.bind.annotation.RequestMapping;
+  import org.springframework.web.bind.annotation.RequestParam;
+  import org.springframework.web.bind.annotation.ResponseBody;
+  import org.springframework.web.multipart.MultipartFile;
+  
+  import com.ntuzy.demo.bean.JsonData;
+  
+  @Controller
+  public class FileController {
+  
+  	
+  	@RequestMapping(value = "/index")
+  	public Object index() {
+  		return "index";
+  	}
+  	
+  	
+  	private static final String filePath = "D:/src/SpringBoot/ntuzy_springboot/src/main/resources/static/images/";
+  	
+  	
+  	@RequestMapping(value="upload")
+  	@ResponseBody
+  	public JsonData upload(@RequestParam("head_img")MultipartFile file,HttpServletRequest request) {
+  		
+  		//file.isEmpty(); 判断图片是否为空
+   		//file.getSize(); 图片大小进行判断
+   		
+   		String name = request.getParameter("name");
+   		System.out.println("用户名："+name);
+          
+   		// 获取文件名
+          String fileName = file.getOriginalFilename();	        
+          System.out.println("上传的文件名为：" + fileName);
+          
+          // 获取文件的后缀名,比如图片的jpeg,png
+          String suffixName = fileName.substring(fileName.lastIndexOf("."));
+          System.out.println("上传的后缀名为：" + suffixName);
+          
+          // 文件上传后的路径
+          fileName = UUID.randomUUID() + suffixName;
+          System.out.println("转换后的名称:"+fileName);
+          
+          File dest = new File(filePath + fileName);
+         
+          try {
+              file.transferTo(dest);
+              return new JsonData(0, fileName);
+  //            return fileName;
+          } catch (IllegalStateException e) {
+              e.printStackTrace();
+          } catch (IOException e) {
+              e.printStackTrace();
+          }
+  //        return  new JsonData(-1, "fail to save ", null);
+  //        return "上传失败";
+          
+          return new JsonData(-1,"fail to save file");
+  		
+  	}
+  	
+  }
+  
+  ```
+
+  
+
++ jar包的方式文件上传
+
+  `@Bean`必须放在有`@SpringBootApplication`的类下
+
+  
+
+  ```java
+  package com.ntuzy.demo.controller;
+  
+  import javax.servlet.MultipartConfigElement;
+  
+  import org.springframework.boot.SpringApplication;
+  import org.springframework.boot.autoconfigure.SpringBootApplication;
+  import org.springframework.boot.web.servlet.MultipartConfigFactory;
+  import org.springframework.context.annotation.Bean;
+  
+  @SpringBootApplication
+  public class NtuZyApplication {
+  	public static void main(String[] args) {
+  		SpringApplication.run(NtuZyApplication.class);
+  	}
+  	
+  	@Bean
+  	public MultipartConfigElement multipartConfigElement() {
+  		
+  		MultipartConfigFactory factory = new MultipartConfigFactory();
+  		// 单个文件最大
+  		factory.setMaxFileSize("10240KB");
+  		// 设置上传数据的总大小
+  		factory.setMaxRequestSize("1024000KB");
+  		
+  		return factory.createMultipartConfig();
+  	}
+  	
+  }
+  
+  ```
+
+  `java -jar xxx.jar`
+
+  导出jar包的时候需要在`pom.xml`中添加
+
+  ```xml
+  <build>
+      <plugins>
+          <plugin>
+              <groupId>org.springframework.boot</groupId>
+              <artifactId>spring-boot-maven-plugin</artifactId>
+          </plugin>
+      </plugins>
+  </build>
+  ```
+
+## 热部署
+
++ Maven
+
+  ```xml
+  <dependency>  
+      <groupId>org.springframework.boot</groupId>  
+      <artifactId>spring-boot-devtools</artifactId>  
+      <optional>true</optional>  
+  </dependency>
+  ```
+
+  不监听热部署的文件
+
+  > spring.devtools.restart.exclude=static/**,public/**
+
+  手动触发热部署
+
+  > spring.devtools.restart.trigger-file=trigger.txt
+
+## 配置文件
+
++ YAML
+
+  ```properties
+  # application.properties示例
+  server.port=8090  
+  server.session-timeout=30  
+  server.tomcat.max-threads=0  
+  server.tomcat.uri-encoding=UTF-8 
+  ```
+
+  ```YAML
+  # application.yml示例
+  server:  
+  	port: 8090  
+      session-timeout: 30  
+      tomcat.max-threads: 0  
+  	tomcat.uri-encoding: UTF-8 
+  ```
+
+### 自动注入
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
