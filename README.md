@@ -409,7 +409,163 @@
 
 ### 自动注入
 
+## 单元测试
 
++ 代码
+
+  ```java
+  package ntuzy_springboot.demo;
+  
+  import org.junit.After;
+  import org.junit.Before;
+  import org.junit.Test;
+  import org.junit.runner.RunWith;
+  import org.springframework.boot.test.context.SpringBootTest;
+  import org.springframework.test.context.junit4.SpringRunner;
+  
+  import com.ntuzy.demo.controller.NtuZyApplication;
+  
+  import junit.framework.TestCase;
+  
+  @RunWith(SpringRunner.class)
+  @SpringBootTest(classes= {NtuZyApplication.class})
+  public class SpringBootTestDemo {
+  
+  	
+  	@Test
+  	public void testOne() {
+  		System.out.println("test hello 1");
+  		TestCase.assertEquals(1, 1);
+  	}
+  	
+  	@Test
+  	public void testTwo() {
+  		System.out.println("test hello 2");
+  		TestCase.assertEquals(1, 1);
+  	}
+  	
+  	 
+  	
+  	@Before
+  	public void testBefore() {
+  		System.out.println("before...");
+  	}
+  	
+  	@After
+  	public void testAfter() {
+  		System.out.println("after...");
+  	}
+  	
+  	
+  	
+  }
+  
+  
+  ```
+
+  + MockMvc
+
+  ```java
+  package ntuzy_springboot.demo;
+  
+  import org.junit.Test;
+  import org.junit.runner.RunWith;
+  import org.springframework.beans.factory.annotation.Autowired;
+  import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+  import org.springframework.boot.test.context.SpringBootTest;
+  import org.springframework.test.context.junit4.SpringRunner;
+  import org.springframework.test.web.servlet.MockMvc;
+  import org.springframework.test.web.servlet.MvcResult;
+  import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+  import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+  
+  import com.ntuzy.demo.controller.NtuZyApplication;
+  
+  @RunWith(SpringRunner.class)
+  @SpringBootTest(classes= {NtuZyApplication.class})
+  @AutoConfigureMockMvc
+  public class MockMvcTestDemo {
+  
+  	@Autowired
+  	private MockMvc mockMvc;
+  
+  	@Test
+  	public void apiTest() throws Exception {
+  		
+  		MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/")).andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
+  		// 获取状态码
+  		int status = mvcResult.getResponse().getStatus();
+  		System.out.println(status);
+  	} 
+  	
+  }
+  
+  ```
+
+## 配置全局异常
+
++ 代码
+
+  ```java
+  package com.ntuzy.demo.bean;
+  
+  import java.util.HashMap;
+  import java.util.Map;
+  
+  import javax.servlet.http.HttpServletRequest;
+  
+  import org.apache.commons.logging.Log;
+  import org.slf4j.Logger;
+  import org.slf4j.LoggerFactory;
+  import org.springframework.web.bind.annotation.ControllerAdvice;
+  import org.springframework.web.bind.annotation.ExceptionHandler;
+  import org.springframework.web.bind.annotation.ResponseBody;
+  import org.springframework.web.servlet.ModelAndView;
+  
+  
+  @ControllerAdvice
+  public class CustomExtHandler {
+  	
+  	private static final Logger Log = LoggerFactory.getLogger(CustomExtHandler.class);
+  
+  	@ExceptionHandler(value=Exception.class)
+  	@ResponseBody
+  	Object handleException(Exception e,HttpServletRequest request) {
+  		
+  		Log.error("url {},msg {}",request.getRequestURL(),e.getMessage()); 
+  		
+  		Map<String, Object> map = new HashMap<String, Object>();
+  		map.put("code", 100);
+  		map.put("msg", e.getMessage());
+  		map.put("url", request.getRequestURL());
+  		return map;
+  	}
+  	
+  	
+  	@ExceptionHandler(value=MyException.class)
+  	@ResponseBody
+  	Object handlerMyException(MyException e,HttpServletRequest request) {
+  		// 页面跳转
+  //		ModelAndView modelAndView = new ModelAndView();
+  //		modelAndView.setViewName("error.html");
+  //		modelAndView.addObject("msg",e.getMessage());
+  //		return modelAndView;
+  		
+  		Map<String, Object> map = new HashMap<String, Object>();
+  		map.put("code", e.getCode());
+  		map.put("msg", e.getMessage());
+  		map.put("url", request.getRequestURL());
+  		return map;
+  		
+  	}
+  	
+  }
+  
+  ```
+
++ 跳转自定义异常页面
+
+  模板引擎
 
 
 
