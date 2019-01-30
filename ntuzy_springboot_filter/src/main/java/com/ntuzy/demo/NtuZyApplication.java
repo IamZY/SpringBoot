@@ -1,4 +1,5 @@
-package com.ntuzy.demo.controller;
+package com.ntuzy.demo;
+
 
 import javax.servlet.MultipartConfigElement;
 
@@ -16,22 +17,4 @@ public class NtuZyApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(NtuZyApplication.class);
 	}
-	
-	
-	@Bean
-	public MultipartConfigElement multipartConfigElement() {
-		
-		MultipartConfigFactory factory = new MultipartConfigFactory();
-		// 单个文件最大
-		factory.setMaxFileSize("10240KB");
-		// 设置上传数据的总大小
-		factory.setMaxRequestSize("1024000KB");
-		
-		return factory.createMultipartConfig();
-		
-		
-	}
-	
-	
-	
 }
