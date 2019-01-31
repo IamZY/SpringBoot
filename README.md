@@ -571,7 +571,7 @@
 
 + 深入SpringBoot过滤器和Servlet3.0配置过滤器实战
   	简介:讲解SpringBoot里面Filter讲解和使用Servlet3.0配置自定义Filter实战
-  		
+
 
 		filter简单理解：人--->检票员（filter）---> 景点
 	
@@ -612,18 +612,18 @@
 
 + Servlet3.0的注解原生Servlet实战
   	讲解：使用 Servlet3.0的注解自定义原生Servlet和Listener
-  		1、自定义原生Servlet
+    		1、自定义原生Servlet
 
 			@WebServlet(name = "userServlet",urlPatterns = "/test/customs")
 			public class UserServlet extends HttpServlet{
-	
+		
 				 @Override
 			     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 			         resp.getWriter().print("custom sevlet");
 			         resp.getWriter().flush();
 			         resp.getWriter().close();
 			     }
-	
+		
 			     @Override
 			     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 			         this.doGet(req, resp);
@@ -636,13 +636,13 @@
 		1、自定义Listener(常用的监听器 servletContextListener、httpSessionListener、servletRequestListener)
 			@WebListener
 			public class RequestListener implements ServletRequestListener {
-	
+		
 			@Override
 			public void requestDestroyed(ServletRequestEvent sre) {
 				// TODO Auto-generated method stub
 				System.out.println("======requestDestroyed========");
 			}
-	
+		
 			@Override
 			public void requestInitialized(ServletRequestEvent sre) {
 				System.out.println("======requestInitialized========");
@@ -676,11 +676,11 @@
 		Filter在只在Servlet前后起作用，而Interceptor够深入到方法前后、异常抛出前后等
 	
 		依赖于Servlet容器即web应用中，而Interceptor不依赖于Servlet容器所以可以运行在多种环境。
-	
+		
 		在接口调用的生命周期里，Interceptor可以被多次调用，而Filter只能在容器初始化时调用一次。
 		
 		Filter和Interceptor的执行顺序
-	 	
+		 	
 		过滤前->拦截前->action执行->拦截后->过滤后
 
 ## Starter
@@ -713,16 +713,16 @@
 			JSP->Servlet(占用JVM内存)permSize
 			javaweb官方推荐
 			springboot不推荐 https://docs.spring.io/spring-boot/docs/2.1.0.BUILD-SNAPSHOT/reference/htmlsingle/#boot-features-jsp-limitations
-	
+		
 		2、Freemarker 
 			FreeMarker Template Language（FTL）  文件一般保存为 xxx.ftl
 			严格依赖MVC模式，不依赖Servlet容器（不占用JVM内存）
 			内建函数
-	
+		
 		3、Thymeleaf (主推)
 			轻量级的模板引擎（负责逻辑业务的不推荐，解析DOM或者XML会占用多的内存）
 			可以直接在浏览器中打开且正确显示模板页面
-	
+		
 			直接是html结尾，直接编辑
 			xdlcass.net/user/userinfo.html
 			社会工程学
@@ -734,10 +734,10 @@
 
 	
 		<!-- 引入freemarker模板引擎的依赖 -->
-	    <dependency>
-	        <groupId>org.springframework.boot</groupId>
-	        <artifactId>spring-boot-starter-freemarker</artifactId>
-	    </dependency>
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-freemarker</artifactId>
+		</dependency>
 	
 	2、Freemarker基础配置
 		# 是否开启thymeleaf缓存,本地为false，生产建议为true
@@ -749,7 +749,7 @@
 		
 		#类型
 		spring.freemarker.content-type=text/html
-	
+		
 		spring.freemarker.expose-request-attributes=true
 		spring.freemarker.expose-session-attributes=true
 		
@@ -801,74 +801,64 @@
 		注意：$表达式只能写在th标签内部
 		快速入门：https://www.thymeleaf.org/doc/articles/standarddialect5minutes.html
 
+## 持久化数据
 
++ 简介：介绍近几年常用的访问数据库的方式和优缺点
 
-
-
-三十二32
-
-1、SpringBoot2.x持久化数据方式介绍
+	1、原始java访问数据库
+		开发流程麻烦
+		1、注册驱动/加载驱动
+			Class.forName("com.mysql.jdbc.Driver")
+		2、建立连接
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/dbname","root","root");
+		3、创建Statement
 	
-	简介：介绍近几年常用的访问数据库的方式和优缺点
+		4、执行SQL语句
 	
-		1、原始java访问数据库
-			开发流程麻烦
-			1、注册驱动/加载驱动
-				Class.forName("com.mysql.jdbc.Driver")
-			2、建立连接
-				Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/dbname","root","root");
-			3、创建Statement
+		5、处理结果集
 	
-			4、执行SQL语句
+		6、关闭连接，释放资源
 	
-			5、处理结果集
+	2、apache dbutils框架
+		比上一步简单点
+		官网:https://commons.apache.org/proper/commons-dbutils/
+	3、jpa框架
+		spring-data-jpa
+		jpa在复杂查询的时候性能不是很好
 	
-			6、关闭连接，释放资源
+	4、Hiberante   解释：ORM：对象关系映射Object Relational Mapping
+		企业大都喜欢使用hibernate
 	
-		2、apache dbutils框架
-			比上一步简单点
-			官网:https://commons.apache.org/proper/commons-dbutils/
-		3、jpa框架
-			spring-data-jpa
-			jpa在复杂查询的时候性能不是很好
-		
-		4、Hiberante   解释：ORM：对象关系映射Object Relational Mapping
-			企业大都喜欢使用hibernate
-		
-		5、Mybatis框架   
-			互联网行业通常使用mybatis
-			不提供对象和关系模型的直接映射,半ORM
-
-
-
-
-2、SpringBoot2.x整合Mybatis3.x注解实战
-	简介：SpringBoot2.x整合Mybatis3.x注解配置实战
+	5、Mybatis框架   
+		互联网行业通常使用mybatis
+		不提供对象和关系模型的直接映射,半ORM
++ SpringBoot2.x整合Mybatis3.x注解实战
+  简介：SpringBoot2.x整合Mybatis3.x注解配置实战
 
 		1、使用starter, maven仓库地址：http://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-starter
 	
 		2、加入依赖(可以用 http://start.spring.io/ 下载)
 					
 			<!-- 引入starter-->
-					<dependency>
-					    <groupId>org.mybatis.spring.boot</groupId>
-					    <artifactId>mybatis-spring-boot-starter</artifactId>
-					    <version>1.3.2</version>
-					    <scope>runtime</scope>			    
-					</dependency>
+	        <dependency>
+	            <groupId>org.mybatis.spring.boot</groupId>
+	            <artifactId>mybatis-spring-boot-starter</artifactId>
+	            <version>1.3.2</version>
+	            <scope>runtime</scope>			    
+	        </dependency>
 		 			
 		 	<!-- MySQL的JDBC驱动包	-->	
-		 			<dependency>
-						<groupId>mysql</groupId>
-						<artifactId>mysql-connector-java</artifactId>
-						<scope>runtime</scope>
-					</dependency> 
+	        <dependency>
+	            <groupId>mysql</groupId>
+	            <artifactId>mysql-connector-java</artifactId>
+	            <scope>runtime</scope>
+	        </dependency> 
 			<!-- 引入第三方数据源 -->		
-					<dependency>
-						<groupId>com.alibaba</groupId>
-						<artifactId>druid</artifactId>
-						<version>1.1.6</version>
-					</dependency>
+	        <dependency>
+	            <groupId>com.alibaba</groupId>
+	            <artifactId>druid</artifactId>
+	            <version>1.1.6</version>
+	        </dependency>
 	
 		3、加入配置文件
 			#mybatis.type-aliases-package=net.xdclass.base_project.domain
@@ -912,21 +902,9 @@
 			https://my.oschina.net/hxflar1314520/blog/1800035
 			https://blog.csdn.net/tingxuetage/article/details/80179772
 
++ SpringBoot整合Mybatis实操和打印SQL语句
+  	讲解:SpringBoot2.x整合Mybatis3.x增删改查实操, 控制台打印sql语句	
 
-
-
-
-
-
-
-
-
-
-
-
-3、SpringBoot整合Mybatis实操和打印SQL语句
-	讲解:SpringBoot2.x整合Mybatis3.x增删改查实操, 控制台打印sql语句
-	
 	1、控制台打印sql语句		
 		#增加打印sql语句，一般用于本地开发测试
 		mybatis.configuration.log-impl=org.apache.ibatis.logging.stdout.StdOutImpl
@@ -977,17 +955,8 @@
 		    return JsonData.buildSuccess();
 		}
 
++ 事务介绍和常见的隔离级别，传播行为	
 
-
-
-
-
-
-
-
-
-4、事务介绍和常见的隔离级别，传播行为
-	
 	简介：讲解什么是数据库事务，常见的隔离级别和传播行为
 	
 	1、介绍什么是事务，单机事务，分布式事务处理等
@@ -1012,17 +981,9 @@
 	
 		PROPAGATION_NEVER--以非事务方式执行，如果当前存在事务，则抛出异常
 
-
-
-
-
-
-
-
-
-5、SpringBoot整合mybatis之事务处理实战
-	简介：SpringBoot整合Mybatis之事务处理实战
-	1、service逻辑引入事务 @Transantional(propagation=Propagation.REQUIRED)
++ SpringBoot整合mybatis之事务处理实战
+  	简介：SpringBoot整合Mybatis之事务处理实战
+  	1、service逻辑引入事务 @Transantional(propagation=Propagation.REQUIRED)
 
 	2、service代码
 		@Override
@@ -1040,27 +1001,10 @@
 			return user.getId();
 		}
 
+## 分布式缓存Redis介绍 
+​	简介:讲解为什么要用缓存和介绍什么是Redis，新手练习工具
+​	
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-========================9、SpringBoot2.x整合Redis实战 4节课================================
-	
-三十七 37
-
-1、分布式缓存Redis介绍 
-	简介:讲解为什么要用缓存和介绍什么是Redis，新手练习工具
-	
 	1、redis官网 https://redis.io/download
 	
 	2、新手入门redis在线测试工具：http://try.redis.io/
@@ -1229,8 +1173,8 @@
 
 
 ​		
-	4、日志级别：DEBUG < INFO < WARN < ERROR
-	
+​	4、日志级别：DEBUG < INFO < WARN < ERROR
+​	
 		===========log4j示例===========		
 		 ### 设置###
 		log4j.rootLogger = debug,stdout,D,E
@@ -1735,10 +1679,10 @@
 
 
 ​	    	
-	    public DefaultMQProducer getProducer(){
-	    	return this.producer;
-	    }
-	    
+​	    public DefaultMQProducer getProducer(){
+​	    	return this.producer;
+​	    }
+​	    
 	    @PostConstruct
 	    public void defaultMQProducer() {
 	        //生产者的组名
