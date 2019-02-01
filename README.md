@@ -1009,16 +1009,8 @@
 	
 	2、新手入门redis在线测试工具：http://try.redis.io/
 
-
-
-
-
-
-
-
-
-2、源码编译安装Redis4.x
-	简介：使用源码安装Redis4.x和配置外网访问
++ 源码编译安装Redis4.x
+  	简介：使用源码安装Redis4.x和配置外网访问
 
 	1、快速安装  https://redis.io/download#installation
 			wget http://download.redis.io/releases/redis-4.0.9.tar.gz
@@ -1034,13 +1026,7 @@
 		   注释掉bind 127.0.0.1可以使所有的ip访问redis
 		   修改 protected-mode，值改为no
 
-
-
-
-
-
-
-3、SpringBoot2.x整合redis实战讲解
++ SpringBoot2.x整合redis实战讲解
 
 	简介：使用springboot-starter整合reids实战
 	
@@ -1085,16 +1071,14 @@
 			2、类型String，List,Hash,Set,ZSet
 			对应的方法分别是opsForValue()、opsForList()、opsForHash()、opsForSet()、opsForZSet()
 
++ Redis工具类封装讲解和实战
+  	简介：高效开发方式 Redis工具类封装讲解和实战
+  		1、常用客户端 https://redisdesktop.com/download
 
+## 定时任务
 
-4、Redis工具类封装讲解和实战
-	简介：高效开发方式 Redis工具类封装讲解和实战
-		1、常用客户端 https://redisdesktop.com/download
-
-========================10、SpringBoot整合定时任务和异步任务处理 3节课================================
-
-1、SpringBoot定时任务schedule讲解
-	简介：讲解什么是定时任务和常见定时任务区别
++ SpringBoot定时任务schedule讲解
+  	简介：讲解什么是定时任务和常见定时任务区别
 
 		1、常见定时任务 Java自带的java.util.Timer类
 			timer:配置比较麻烦，时间延后问题
@@ -1109,14 +1093,8 @@
 			2）定时任务业务类 加注解 @Component被容器扫描
 			3）定时执行的方法加上注解 @Scheduled(fixedRate=2000) 定期执行一次
 
-
-
-
-
-
-
-2、SpringBoot常用定时任务配置实战
-	简介：SpringBoot常用定时任务表达式配置和在线生成器
++ SpringBoot常用定时任务配置实战
+  	简介：SpringBoot常用定时任务表达式配置和在线生成器
 
 		1、cron 定时任务表达式 @Scheduled(cron="*/1 * * * * *") 表示每秒
 			1）crontab 工具  https://tool.lu/crontab/
@@ -1124,16 +1102,13 @@
 		3、fixedDelay: 上一次执行结束时间点后xx秒再次执行
 		4、fixedDelayString:  字符串形式，可以通过配置文件指定
 
-
-
-
-3、SpringBoot2.x异步任务实战（核心知识）
-	简介：讲解什么是异步任务，和使用SpringBoot2.x开发异步任务实战
-		1、什么是异步任务和使用场景：适用于处理log、发送邮件、短信……等
-			下单接口->查库存 100
-					余额校验 150
-					风控用户100
-					....
++ SpringBoot2.x异步任务实战（核心知识）
+  	简介：讲解什么是异步任务，和使用SpringBoot2.x开发异步任务实战
+  		1、什么是异步任务和使用场景：适用于处理log、发送邮件、短信……等
+  			下单接口->查库存 100
+  					余额校验 150
+  					风控用户100
+  					....
 
 
 		2、启动类里面使用@EnableAsync注解开启功能，自动扫描
@@ -1143,9 +1118,7 @@
 				1）要把异步任务封装到类里面，不能直接写到Controller
 				2）增加Future<String> 返回结果 AsyncResult<String>("task执行完成");  
 				3）如果需要拿到结果 需要判断全部的 task.isDone()
-		4、通过注入方式，注入到controller里面，如果测试前后区别则改为同步则把Async注释掉
-
-
+		4、通过注入方式，注入到controller里面，如果测试前后区别则改为同步则把Async注释
 
 
 

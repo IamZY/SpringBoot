@@ -3,6 +3,7 @@ package com.ntuzy.demo.Controller;
 import static org.mockito.Mockito.lenient;
 
 import java.util.Date;
+import java.util.concurrent.Future;
 
 import org.hibernate.validator.internal.util.privilegedactions.NewInstance;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import com.ntuzy.demo.bean.JsonData;
 import com.ntuzy.demo.bean.User;
 import com.ntuzy.demo.mapper.UserMapper;
 import com.ntuzy.demo.services.UserService;
+import com.ntuzy.demo.task.AsyncTask;
 
 @Controller
 @RequestMapping("/user")
@@ -54,6 +56,38 @@ public class UserController {
 		int id = userService.addAcount();
 		
 		return new JsonData().buildSuccess(id);
+	}
+	
+	
+	@Autowired
+	private AsyncTask asyncTask;
+	
+	@GetMapping("async_task")
+	@ResponseBody
+	public JsonData exeTask() throws InterruptedException {
+		
+		long begin = System.currentTimeMillis();
+		
+//		asyncTask.task1();
+//		asyncTask.task2();
+//		asyncTask.task3();
+		
+		Future<String> task4 = asyncTask.task4();
+		Future<String> task5 = asyncTask.task5();
+		Future<String> task6 = asyncTask.task6();
+		
+		for(;;) {
+			if (task4.isDone()&&task5.isDone()&&task6.isDone()) {
+				break;
+			}
+		}
+		
+		
+		long end = System.currentTimeMillis();
+		
+		System.out.println("执行总耗时 "+(end-begin));
+		
+		return new JsonData().buildSuccess((end-begin));
 	}
 	
 	
