@@ -814,9 +814,9 @@
 		3、创建Statement
 	
 		4、执行SQL语句
-	
+		
 		5、处理结果集
-	
+		
 		6、关闭连接，释放资源
 	
 	2、apache dbutils框架
@@ -836,52 +836,52 @@
   简介：SpringBoot2.x整合Mybatis3.x注解配置实战
 
 		1、使用starter, maven仓库地址：http://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-starter
-	
+		
 		2、加入依赖(可以用 http://start.spring.io/ 下载)
 					
 			<!-- 引入starter-->
-	        <dependency>
-	            <groupId>org.mybatis.spring.boot</groupId>
-	            <artifactId>mybatis-spring-boot-starter</artifactId>
-	            <version>1.3.2</version>
-	            <scope>runtime</scope>			    
-	        </dependency>
+		    <dependency>
+		        <groupId>org.mybatis.spring.boot</groupId>
+		        <artifactId>mybatis-spring-boot-starter</artifactId>
+		        <version>1.3.2</version>
+		        <scope>runtime</scope>			    
+		    </dependency>
 		 			
 		 	<!-- MySQL的JDBC驱动包	-->	
-	        <dependency>
-	            <groupId>mysql</groupId>
-	            <artifactId>mysql-connector-java</artifactId>
-	            <scope>runtime</scope>
-	        </dependency> 
+		    <dependency>
+		        <groupId>mysql</groupId>
+		        <artifactId>mysql-connector-java</artifactId>
+		        <scope>runtime</scope>
+		    </dependency> 
 			<!-- 引入第三方数据源 -->		
-	        <dependency>
-	            <groupId>com.alibaba</groupId>
-	            <artifactId>druid</artifactId>
-	            <version>1.1.6</version>
-	        </dependency>
-	
+		    <dependency>
+		        <groupId>com.alibaba</groupId>
+		        <artifactId>druid</artifactId>
+		        <version>1.1.6</version>
+		    </dependency>
+		
 		3、加入配置文件
 			#mybatis.type-aliases-package=net.xdclass.base_project.domain
 			#可以自动识别
 			#spring.datasource.driver-class-name =com.mysql.jdbc.Driver
-	
+		
 			spring.datasource.url=jdbc:mysql://localhost:3306/movie?useUnicode=true&characterEncoding=utf-8
 			spring.datasource.username =root
 			spring.datasource.password =password
 			#如果不使用默认的数据源 （com.zaxxer.hikari.HikariDataSource）
 			spring.datasource.type =com.alibaba.druid.pool.DruidDataSource
-	
+		
 		加载配置，注入到sqlSessionFactory等都是springBoot帮我们完成
-	
+		
 		4、启动类增加mapper扫描
 			@MapperScan("net.xdclass.base_project.mapper")
-	
+		
 			 技巧：保存对象，获取数据库自增id 
 			 @Options(useGeneratedKeys=true, keyProperty="id", keyColumn="id")
-	
+		
 		4、开发mapper
 			参考语法 http://www.mybatis.org/mybatis-3/zh/java-api.html
-	
+		
 		5、sql脚本
 			CREATE TABLE `user` (
 			  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -915,35 +915,35 @@
 	        @Result(column = "create_time",property = "createTime")  //javaType = java.util.Date.class        
 	    })
 	    List<User> getAll();
-	  
+	
 	    @Select("SELECT * FROM user WHERE id = #{id}")
 	    @Results({
 	    	 @Result(column = "create_time",property = "createTime")
 	    })
 	    User findById(Long id);
-	
+	    
 	    @Update("UPDATE user SET name=#{name} WHERE id =#{id}")
 	    void update(User user);
-	
+	    
 	    @Delete("DELETE FROM user WHERE id =#{userId}")
 	    void delete(Long userId);
-	 
+	
 	 3、增加API
 	
 		@GetMapping("find_all")
 		public Object findAll(){
-	       return JsonData.buildSuccess(userMapper.getAll());
+		   return JsonData.buildSuccess(userMapper.getAll());
 		}
 		
 		@GetMapping("find_by_Id")
 		public Object findById(long id){
-	       return JsonData.buildSuccess(userMapper.findById(id));
+		   return JsonData.buildSuccess(userMapper.findById(id));
 		}
 		
 		@GetMapping("del_by_id")
 		public Object delById(long id){
 		userMapper.delete(id);
-	       return JsonData.buildSuccess();
+		   return JsonData.buildSuccess();
 		}
 		
 		@GetMapping("update")
@@ -983,7 +983,7 @@
 
 + SpringBoot整合mybatis之事务处理实战
   	简介：SpringBoot整合Mybatis之事务处理实战
-  	1、service逻辑引入事务 @Transantional(propagation=Propagation.REQUIRED)
+    	1、service逻辑引入事务 @Transantional(propagation=Propagation.REQUIRED)
 
 	2、service代码
 		@Override
@@ -996,8 +996,8 @@
 			user.setPhone("000121212");
 			
 			userMapper.insert(user);
-	        int a = 1/0;
-	
+		    int a = 1/0;
+		
 			return user.getId();
 		}
 
@@ -1032,31 +1032,31 @@
 	
 		1、官网：https://docs.spring.io/spring-boot/docs/2.1.0.BUILD-SNAPSHOT/reference/htmlsingle/#boot-features-redis
 			集群文档：https://docs.spring.io/spring-data/data-redis/docs/current/reference/html/#cluster
-	
+		
 		2、springboot整合redis相关依赖引入
 			<dependency>
-	            <groupId>org.springframework.boot</groupId>
-	            <artifactId>spring-boot-starter-data-redis</artifactId>
-	        </dependency>
-	    
-	    3、相关配置文件配置
+		        <groupId>org.springframework.boot</groupId>
+		        <artifactId>spring-boot-starter-data-redis</artifactId>
+		    </dependency>
+		
+		3、相关配置文件配置
 			#=========redis基础配置=========
 			spring.redis.database=0
 			spring.redis.host=127.0.0.1
 			spring.redis.port=6390
 			# 连接超时时间 单位 ms（毫秒）
 			spring.redis.timeout=3000
-	
+		
 			#=========redis线程池设置=========
 			# 连接池中的最大空闲连接，默认值也是8。
 			spring.redis.pool.max-idle=200
-	
+		
 			#连接池中的最小空闲连接，默认值也是0。
 			spring.redis.pool.min-idle=200
 			
 			# 如果赋值为-1，则表示不限制；pool已经分配了maxActive个jedis实例，则此时pool的状态为exhausted(耗尽)。
 			spring.redis.pool.max-active=2000
-	
+		
 			# 等待可用连接的最大时间，单位毫秒，默认值为-1，表示永不超时
 			spring.redis.pool.max-wait=1000
 
@@ -1073,7 +1073,7 @@
 
 + Redis工具类封装讲解和实战
   	简介：高效开发方式 Redis工具类封装讲解和实战
-  		1、常用客户端 https://redisdesktop.com/download
+    		1、常用客户端 https://redisdesktop.com/download
 
 ## 定时任务
 
@@ -1083,11 +1083,11 @@
 		1、常见定时任务 Java自带的java.util.Timer类
 			timer:配置比较麻烦，时间延后问题
 			timertask:不推荐
-	
+		
 		2、Quartz框架
 			配置更简单
 			xml或者注解
-	
+		
 		3、SpringBoot使用注解方式开启定时任务
 			1）启动类里面 @EnableScheduling开启定时任务，自动扫描
 			2）定时任务业务类 加注解 @Component被容器扫描
@@ -1104,11 +1104,11 @@
 
 + SpringBoot2.x异步任务实战（核心知识）
   	简介：讲解什么是异步任务，和使用SpringBoot2.x开发异步任务实战
-  		1、什么是异步任务和使用场景：适用于处理log、发送邮件、短信……等
-  			下单接口->查库存 100
-  					余额校验 150
-  					风控用户100
-  					....
+    		1、什么是异步任务和使用场景：适用于处理log、发送邮件、短信……等
+    			下单接口->查库存 100
+    					余额校验 150
+    					风控用户100
+    					....
 
 
 		2、启动类里面使用@EnableAsync注解开启功能，自动扫描
@@ -1118,20 +1118,12 @@
 				1）要把异步任务封装到类里面，不能直接写到Controller
 				2）增加Future<String> 返回结果 AsyncResult<String>("task执行完成");  
 				3）如果需要拿到结果 需要判断全部的 task.isDone()
-		4、通过注入方式，注入到controller里面，如果测试前后区别则改为同步则把Async注释
+		4、通过注入方式，注入到controller里面，如果测试前后区别则改为同步则把Async
 
+## Logback日志框架(starter-web自带)
 
-
-
-
-
-
-
-========================11、Logback日志框架介绍和SpringBoot整合实战 2节课================================
-
-
-1、新日志框架LogBack介绍
-	简介：日志介绍和新日志框架Logback讲解
++ 新日志框架LogBack介绍
+  	简介：日志介绍和新日志框架Logback讲解
 
 	1.常用处理java的日志组件 slf4j,log4j,logback,common-logging 等
 	
@@ -1144,14 +1136,15 @@
 		Appender：指定日志输出的目的地，目的地可以是控制台，文件
 		Layout：日志布局 格式化日志信息的输出
 
++ 日志级别：DEBUG < INFO < WARN < ERROR
+  ​	
+  		===========log4j示例===========		
 
-​		
-​	4、日志级别：DEBUG < INFO < WARN < ERROR
+​	设置###
+
+​		log4j.rootLogger = debug,stdout,D,E
 ​	
-		===========log4j示例===========		
-		 ### 设置###
-		log4j.rootLogger = debug,stdout,D,E
-	
+
 		### 输出信息到控制抬 ###
 		log4j.appender.stdout = org.apache.log4j.ConsoleAppender
 		log4j.appender.stdout.Target = System.out
@@ -1179,15 +1172,8 @@
 	4、Log4j日志转换为logback在线工具（支持log4j.properties转换为logback.xml,不支持 log4j.xml转换为logback.xml）
 	 https://logback.qos.ch/translator/
 
-
-
-
-
-
-
-
-2、SpringBoot2.x日志讲解和Logback配置实战
-	简介：讲解SpringBoot2.x整合Logback配置实战
++ SpringBoot2.x日志讲解和Logback配置实战
+  	简介：讲解SpringBoot2.x整合Logback配置实战
 
 		1、官网介绍：https://docs.spring.io/spring-boot/docs/2.1.0.BUILD-SNAPSHOT/reference/htmlsingle/#boot-features-logging
 	
@@ -1206,13 +1192,13 @@
 				<logger></logger>
 				<root></root>(要加在最后)		
 
-
+## 搜索框架ElasticSearch
 
 
 ========================12章 搜索框架ElasticSearch介绍和整合SpringBoot 4节课=============================
 
-1、搜索知识和搜索框架elasticsearch介绍
-	简介：通过京东电商 介绍什么是搜索引擎，和开源搜索框架ElasticSearch6.x新特性介绍
++ 搜索知识和搜索框架elasticsearch介绍
+  	简介：通过京东电商 介绍什么是搜索引擎，和开源搜索框架ElasticSearch6.x新特性介绍
 
 		前言：介绍ES的主要特点和使用场景，新特性讲解
 		mysql：like 模糊，性能问题,
@@ -1250,18 +1236,13 @@
 		2、6.1更新特性 
 		https://www.elastic.co/guide/en/elasticsearch/reference/6.1/release-notes-6.1.0.html
 
++ 快熟部署ElastcSearch5.6.x
+  	简介：讲解为什么不用ES6.x版本，及本地快速安装ElasticSeach和场景问题处理
+  		
 
-
-
-
-
-
-2、快熟部署ElastcSearch5.6.x
-	简介：讲解为什么不用ES6.x版本，及本地快速安装ElasticSeach和场景问题处理
-		
 	配置JDK1.8
 		使用wget 下载elasticsearch安装包
-		wget  https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.6.8.tar.gz
+		wget  https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.6.8.tar.gz 
 	解压
 		tar -zxvf elasticsearch-5.6.8.tar.gz
 	官网：https://www.elastic.co/products/elasticsearch
@@ -1300,7 +1281,6 @@
 	
 		常见配置问题资料：https://www.jianshu.com/p/c5d6ec0f35e0
 
-
 3、ElasticSearch5.6测试数据准备
 	简介: ElasticSearch5.6.x简单测试
 		1、步骤 https://www.elastic.co/guide/en/elasticsearch/reference/5.6/index.html
@@ -1335,7 +1315,9 @@
 
 
  		3、配置文件：
- 			# ELASTICSEARCH (ElasticsearchProperties)
+
+#ELASTICSEARCH (ElasticsearchProperties)
+
 			spring.data.elasticsearch.cluster-name=elasticsearch # Elasticsearch cluster name.
 			spring.data.elasticsearch.cluster-nodes=localhost:9300 # Comma-separated list of cluster node addresses.
 			spring.data.elasticsearch.repositories.enabled=true # Whether to enable Elasticsearch repositories.
@@ -1354,13 +1336,11 @@
 
 
 
+## 消息队列、RockketMQ、ActiveMQ 
 
-
-========================13、消息队列介绍和SpringBoot2.x整合RockketMQ、ActiveMQ 9节课=======================
-
-1、JMS介绍和使用场景及基础编程模型
-	简介：讲解什么是小写队列，JMS的基础知识和使用场景
-	1、什么是JMS: Java消息服务（Java Message Service),Java平台中关于面向消息中间件的接口
++ JMS介绍和使用场景及基础编程模型
+  	简介：讲解什么是小写队列，JMS的基础知识和使用场景
+  	1、什么是JMS: Java消息服务（Java Message Service),Java平台中关于面向消息中间件的接口
 
 	2、JMS是一种与厂商无关的 API，用来访问消息收发系统消息，它类似于JDBC(Java Database Connectivity)。这里，JDBC 是可以用来访问许多不同关系数据库的 API
 	
@@ -1393,15 +1373,8 @@
 		Destination ：消息的目的地;消息发送给谁.
 		MessageConsumer / MessageProducer： 消息接收者，消费者
 
++ ActiveMQ5.x消息队列基础介绍和安装
 
-
-
-
-
-
-
-2、ActiveMQ5.x消息队列基础介绍和安装
-	
 	简介：介绍ActiveMQ5.x消息队列基础特性和本地快速安装
 		特点：
 			1）支持来自Java，C，C ++，C＃，Ruby，Perl，Python，PHP的各种跨语言客户端和协议
@@ -1428,12 +1401,8 @@
 		Messages Enqueued：进入队列的消息总个数，包括出队列的和待消费的，这个数量只增不减。
 		Messages Dequeued：已经消费的消息数量。
 
++ SpringBoot2整合ActiveMQ实战之点对点消息	
 
-
-
-
-3、SpringBoot2整合ActiveMQ实战之点对点消息
-	
 	简介:SpringBoot2.x整合ActiveMQ实战之点对点消息
 	
 	1、官网地址：https://docs.spring.io/spring-boot/docs/2.1.0.BUILD-SNAPSHOT/reference/htmlsingle/#boot-features-activemq
@@ -1656,15 +1625,15 @@
 ​	    	return this.producer;
 ​	    }
 ​	    
-	    @PostConstruct
-	    public void defaultMQProducer() {
-	        //生产者的组名
-	    	producer = new DefaultMQProducer(producerGroup);
-	        //指定NameServer地址，多个地址以 ; 隔开
-	    	//如 producer.setNamesrvAddr("192.168.100.141:9876;192.168.100.142:9876;192.168.100.149:9876"); 
-	        producer.setNamesrvAddr(namesrvAddr);
-	        producer.setVipChannelEnabled(false);
-	        
+​	    @PostConstruct
+​	    public void defaultMQProducer() {
+​	        //生产者的组名
+​	    	producer = new DefaultMQProducer(producerGroup);
+​	        //指定NameServer地址，多个地址以 ; 隔开
+​	    	//如 producer.setNamesrvAddr("192.168.100.141:9876;192.168.100.142:9876;192.168.100.149:9876"); 
+​	        producer.setNamesrvAddr(namesrvAddr);
+​	        producer.setVipChannelEnabled(false);
+​	        
 	        try {
 	            /**
 	             * Producer对象在使用之前必须要调用start初始化，只能初始化一次
