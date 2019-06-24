@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 
+    	scope
+    		singleton 单例   (service dao)
+    		prototype 多例 每次创建新的对象 (action)
+    		request 保证一个请求创建一个对象
+    		session 保证一个会话创建一个对象
+    		
+   		init-method
+   		
+   		destroy-method
+    		
+     -->
+	<bean id="customerDao" class="com.ntuzy.dao.impl.CustomerDaoImpl" scope="singleton" init-method="init" destroy-method="destroy" ></bean>
+
+	<!-- 
+	<bean id="customerService" class="com.ntuzy.service.impl.CustomerServiceImpl">
+	    index 参数索引 
+	    <constructor-arg index="0" ref="customerDao" />
+	    
+	    <property name="customerDao" ref="customerDao"></property>
+	    
+	</bean>
+	 -->
+	 
+	 <!-- 使用p名称空间注入 基于setter方法  -->
+	 <!-- 
+	 <bean id="customerService" class="com.ntuzy.service.impl.CustomerServiceImpl" p:customerDao-ref="customerDao"></bean>
+	  -->
+	  
+	  <!-- spEL表达式注入   可以用在setter和构造方法上面 -->
+  	<!-- 
+	  <bean id="customerService" class="com.ntuzy.service.impl.CustomerServiceImpl">
+	      <property name="customerDao" value="#{customerDao}"></property>
+	  </bean>
+	  -->
+	  
+	  <bean id="customer" class="com.ntuzy.domain.Customer">
+	      <property name="username">
+	          <value>abc</value>
+	      </property>
+	      <property name="age">
+	          <value>1</value>
+	      </property>
+	  </bean>
+	  
+	  <bean id="customerService" class="com.ntuzy.service.impl.CustomerServiceImpl">
+	      <property name="Sex" value="#{'jack'}"></property>
+    	  <property name="customer" value="#{customer}"></property>
+    	  <property name="Address">
+    	      <array>
+    	          <value>1</value>
+    	          <value>2</value>
+    	          <value>3</value>
+    	      </array>
+    	  </property>
+    	  
+    	  <property name="customerList">
+    	      <list>
+    	          <ref bean="customer"/>
+    	          <ref bean="customer"/>
+    	          <ref bean="customer"/>
+    	      </list>
+    	  </property>
+    	  
+    	  <property name="customerMap">
+    	      <map>
+    	          <entry key="1" value-ref="customer"></entry>
+    	          <entry key="2" value-ref="customer"></entry>
+    	          <entry key="3" value-ref="customer"></entry>
+    	      </map>
+    	  </property>
+    	  
+    	  <property name="customerProperties">
+    	      <props>
+    	          <prop key="001">rose</prop>
+    	          <prop key="002">rose2</prop>
+    	          <prop key="003">rose3</prop>
+    	      </props>
+    	  </property>
+	  </bean>
+</beans>

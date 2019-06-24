@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="lib/01.spring-ioc/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="lib/01.spring-ioc/spring-beans-4.3.3.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/01.spring-ioc/spring-context-4.3.3.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/01.spring-ioc/spring-context-support-4.3.3.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/01.spring-ioc/spring-core-4.3.3.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/01.spring-ioc/spring-expression-4.3.3.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/02.spring-aop/aopalliance.jar"/>
+	<classpathentry kind="lib" path="lib/02.spring-aop/aspectjrt.jar"/>
+	<classpathentry kind="lib" path="lib/02.spring-aop/aspectjweaver.jar"/>
+	<classpathentry kind="lib" path="lib/02.spring-aop/spring-aop-4.3.3.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/02.spring-aop/spring-aspects-4.3.3.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/03.spring-jdbc-tx/spring-jdbc-4.3.3.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/03.spring-jdbc-tx/spring-tx-4.3.3.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/04.spring-test/spring-test-4.3.3.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="lib/junit-4.12.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

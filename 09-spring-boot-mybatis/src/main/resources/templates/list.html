@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>客户列表展示</title>
+</head>
+<body>
+<h3>客户列表展示</h3>
+<table border="1" style="width: 500px;">
+	<tr>
+		<td>编号</td>
+		<td>姓名</td>
+		<td>金额</td>
+		<td>操作</td>
+	</tr>
+	<tr th:each="acc:${list}">
+		<td th:text="${acc.id}"></td>
+		<td th:text="${acc.name}"></td>
+		<td th:text="${acc.money}"></td>
+		<td>
+		<a th:href="@{/account/findById(id=${acc.id})}">修改</a>&nbsp;
+		<a th:href="@{/account/delete(id=${acc.id})}">删除</a>
+		</td>
+	</tr>
+</table>
+
+</body>
+</html>

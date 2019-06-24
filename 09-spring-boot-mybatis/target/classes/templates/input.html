@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>Insert title here</title>
+</head>
+<body>
+	<form th:action="@{~/account/save}" method="post">
+		<input type="hidden" name="id" th:field="${acc.id}" /> 
+		客户姓名：<input type="text" name="name" th:field="${acc.name}" /><br /> 
+		账户金额： <input type="text" name="money" th:field="${acc.money}" /><br />
+		<input type="submit" value="保存" />
+	</form>
+</body>
+</html>
