@@ -1,5 +1,7 @@
 package com.ntuzy.domain;
 
+import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,7 +14,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "t_emp")
-public class Emp {
+public class Emp implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,19 +32,6 @@ public class Emp {
 
 	@Column(name = "address")
 	private String address;
-
-	// 关联一方
-	@ManyToOne(cascade = CascadeType.PERSIST)  //级联相关
-	@JoinColumn(name = "dept_id") // 维护外键字段
-	private Dept dept;
-
-	public Dept getDept() {
-		return dept;
-	}
-
-	public void setDept(Dept dept) {
-		this.dept = dept;
-	}
 
 	public Integer getId() {
 		return id;

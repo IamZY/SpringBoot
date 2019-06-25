@@ -1,5 +1,7 @@
 package com.ntuzy.test;
 
+import static org.hamcrest.CoreMatchers.nullValue;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -167,5 +169,68 @@ public class EmpRepositoryTest {
 		System.out.println("总页数：" + pageData.getTotalPages());
 
 	}
+	
+	
+	@Test
+	public void testFindAllJpa1() {
+		Specification<Emp> spec = new Specification<Emp>() {
+
+			// 封装条件
+			/**
+			 * 
+			 * @param root 跟对象 查询对象属性
+			 * @param query  执行普通的查询
+			 * @param cb 查询条件构造器 不同的构造类型
+			 * @return
+			 */
+			@Override
+			public Predicate toPredicate(Root<Emp> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+				// where name = ?
+				/**
+				 * 第一个参数  查询的属性
+				 * 第二个参数 条件值 相当于?
+				 */
+				Predicate pre = cb.equal(root.get("name"), "张三");
+				return pre;
+			}
+			
+		};
+		List<Emp> list = empRepository.findAll(spec);
+		for(Emp emp : list) {
+			System.out.println(emp);
+		}
+	}
+	
+	
+	
+	/**
+	 * 多条件
+	 */
+	@Test
+	public void testFindAllJpa2() {
+		Specification<Emp> spec = new Specification<Emp>() {
+
+			@Override
+			public Predicate toPredicate(Root<Emp> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+				// where name = ? and gender = ?
+				List<Predicate> preList = new ArrayList<Predicate>();
+				
+				preList.add(cb.equal(root.get("name"), "张三"));
+				preList.add(cb.equal(root.get("gender"), "男"));
+				
+				Predicate[] preArray = new Predicate[preList.size()];
+				return cb.and(preList.toArray(preArray));
+			}
+			
+		};
+		List<Emp> list = empRepository.findAll(spec);
+		for(Emp emp : list) {
+			System.out.println(emp);
+		}
+	}
+	
+	
+	
+	
 
 }
